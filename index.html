@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>OOP</title>
+    <script>
+        let cnv,ctx;
+
+        class Bod {
+            constructor(x,y,c) {
+                this.x = x;
+                this.y = y;
+                this.c = c;
+            }
+            kresli() {
+                ctx.beginPath();
+                ctx.strokeStyle = this.c;
+                ctx.moveTo(this.x-5,this.y);
+                ctx.lineTo(this.x+5,this.y);
+                ctx.moveTo(this.x,this.y-5);
+                ctx.lineTo(this.x,this.y+5);
+                ctx.stroke();
+            }
+            posun(dx,dy,prekresli = true) {
+                this.x += dx;
+                this.y += dy;
+                if (prekresli) {
+                    this.kresli();
+                }
+            }
+        }
+
+        class Ctverec extends Bod {
+            constructor(x,y,c,a) {
+                super(x,y,c); //zavola zdedeny konstruktor
+                this.a = a;
+            }
+            kresli() {
+                ctx.beginPath();
+                ctx.strokeStyle = this.c;
+                ctx.moveTo(this.x,this.y);
+                ctx.lineTo(this.x+this.a,this.y);
+                ctx.lineTo(this.x+this.a,this.y+this.a);
+                ctx.lineTo(this.x,this.y+this.a);
+                ctx.lineTo(this.x,this.y);
+                ctx.stroke();
+            }
+        }
+
+        let obrazce = new Array();
+        function poNacteni() {
+            cnv = document.getElementById("platno");
+            ctx = cnv.getContext("2d");
+
+            obrazce.push(new Bod(10,20,"blue"));
+            obrazce.push(new Ctverec(300,10,"green",50));
+            for (let o of obrazce) {
+                o.kresli();
+            }
+        }
+
+
+    </script>
+</head>
+<body onload="poNacteni()">
+
+<h1>OOP</h1>
+
+<canvas id="platno" width="800" height="600" style="background-color: gainsboro"></canvas>
+
+</body>
+</html>

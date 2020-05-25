@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>OOP</title>
+    <script>
+        class Bod {
+            constructor (x,y,c) {
+                this.x = x;
+                this.y = y;
+                this.c = c;
+            }
+            kresli () {
+                ctx.beginPath();
+                ctx.strokeStyle = this.c;
+                ctx.moveTo(this.x-5, this.y);
+                ctx.lineTo(this.x+5, this.y);
+                ctx.moveTo(this.x, this.y-5);
+                ctx.lineTo(this.x, this.y+5);
+                ctx.stroke();
+            }
+            posun(dx,dy) {
+                this.x = this.x + dx;
+                this.y = this.y + dy;
+            }
+        }
+        class Ctverec extends Bod {
+            constructor (x,y,c,a) {
+                super(x,y,c);
+                this.a = a;
+            }
+            kresli () {
+                ctx.beginPath();
+                ctx.strokeStyle = this.c;
+                ctx.rect(this.x, this.y, this.a, this.a);
+                ctx.stroke();
+            }
+        }
+
+        let cnv,ctx;
+        let obrazce = new Array();
+        function animace() {
+            ctx.clearRect(0,0,cnv.width,cnv.height);
+            for (let o of obrazce) {
+                o.posun(10,0);
+                o.kresli();
+            }
+        }
+        function poNacteni() {
+            cnv = document.getElementById("platno");
+            ctx = cnv.getContext("2d");
+
+            let o1 = new Bod(10, 20, "green");
+            obrazce.push(o1);
+            let o2 = new Ctverec(200, 40, "red", 50);
+            obrazce.push(o2);
+
+            //o2.x = 500;
+
+            animace();
+            setInterval(animace, 1000);
+        }
+
+
+    </script>
+</head>
+<body onload="poNacteni()">
+
+<h1>OOP</h1>
+
+<canvas id="platno" width="800" height="600" style="background-color: gainsboro"></canvas>
+
+</body>
+</html>
